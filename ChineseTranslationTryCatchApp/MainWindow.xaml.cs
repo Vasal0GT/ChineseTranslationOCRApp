@@ -85,7 +85,7 @@ namespace ChineseTranslationThrougOCR
                 rowNumber = Parse.findNNumber(selectedText);
                 FillWindow();
                 loadingWindow.Hide();
-                this.Left = SystemParameters.PrimaryScreenWidth - this.Width - 80;
+                this.Left = SystemParameters.PrimaryScreenWidth - this.Width - 8;
                 this.Top = SystemParameters.PrimaryScreenHeight - this.Height - 80;
                 this.Topmost = true;
                 this.Show();
