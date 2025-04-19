@@ -131,6 +131,7 @@ namespace ChineseTranslationThrougOCR
         {
             //this.MouseLeave -= Window_MouseLeave;
             reLoadTimer.Start();
+            this.Hide();
             Console.WriteLine("TIMER STARTED!!!");
         }
 
