@@ -87,8 +87,8 @@ namespace ChineseTranslationThrougOCR
                 FillWindow();
                 loadingWindow.Hide();
                 GetCursorPos(ref currentPosition);
-                this.Left = currentPosition.X;
-                this.Top = currentPosition.Y;
+                this.Left = currentPosition.X * (96d / 120);
+                this.Top = currentPosition.Y * (96d / 120);
                 this.Topmost = true;
                 this.Show();
             }
@@ -106,8 +106,8 @@ namespace ChineseTranslationThrougOCR
             loadingWindow = new LoadWindow();
             loadingWindow.Height = this.Height;
             loadingWindow.Width = this.Width;
-            loadingWindow.Left = currentPosition.X;
-            loadingWindow.Top = currentPosition.Y;
+            loadingWindow.Left = currentPosition.X * (96d / 120);
+            loadingWindow.Top = currentPosition.Y * (96d / 120);
             loadingWindow.Topmost = true;
 
             // Создаем Label
