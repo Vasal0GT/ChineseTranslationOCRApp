@@ -45,6 +45,7 @@ namespace ChineseTranslationThrougOCR
         private static int emptyRowCount;
         private bool isLeftMouseButtonDown = false;
         private LoadWindow loadingWindow;
+        private Point currentPosition;
 
         public MainWindow()
         {
@@ -85,8 +86,9 @@ namespace ChineseTranslationThrougOCR
                 rowNumber = Parse.findNNumber(selectedText);
                 FillWindow();
                 loadingWindow.Hide();
-                this.Left = SystemParameters.PrimaryScreenWidth - this.Width - 8;
-                this.Top = SystemParameters.PrimaryScreenHeight - this.Height - 80;
+                GetCursorPos(ref currentPosition);
+                this.Left = currentPosition.X;
+                this.Top = currentPosition.Y;
                 this.Topmost = true;
                 this.Show();
             }
@@ -100,11 +102,12 @@ namespace ChineseTranslationThrougOCR
 
         private void CreateLoadingWindowGuts()
         {
+            GetCursorPos(ref currentPosition);
             loadingWindow = new LoadWindow();
             loadingWindow.Height = this.Height;
             loadingWindow.Width = this.Width;
-            loadingWindow.Left = SystemParameters.PrimaryScreenWidth - this.Width - 8;
-            loadingWindow.Top = SystemParameters.PrimaryScreenHeight - this.Height - 80;
+            loadingWindow.Left = currentPosition.X;
+            loadingWindow.Top = currentPosition.Y;
             loadingWindow.Topmost = true;
 
             // Создаем Label
@@ -127,6 +130,11 @@ namespace ChineseTranslationThrougOCR
 
             loadingWindow.Content = grid; // Явно устанавливаем Content
         }
+
+
+        [DllImport("user32.dll")]
+        private static extern bool GetCursorPos(ref Point curPoint);
+
         private void Window_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             //this.MouseLeave -= Window_MouseLeave;
