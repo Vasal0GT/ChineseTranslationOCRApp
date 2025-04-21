@@ -22,6 +22,7 @@ namespace ChineseTranslationTryCatchApp
         public LoadWindow()
         {
             InitializeComponent();
+            this.WindowStyle = WindowStyle.None;
         }
     }
 }

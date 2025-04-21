@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using Brushes = System.Windows.Media.Brushes;
+using Color = System.Windows.Media.Color;
 
 
 
@@ -50,6 +51,9 @@ namespace ChineseTranslationThrougOCR
         public MainWindow()
         {
             InitializeComponent();
+            this.WindowStyle = WindowStyle.None;              // Убирает заголовок и рамки
+            this.AllowsTransparency = true;                   // Разрешает прозрачность
+            this.Background = Brushes.Transparent;          // Делаем фон окна прозрачным
             StartTimerAndCheckClipBoard();
         }
         private void StartTimerAndCheckClipBoard()
@@ -185,24 +189,45 @@ namespace ChineseTranslationThrougOCR
         }
         private void CreateCanvasWithRow()
         {
-                mainGrid = new Grid()
+            // Основной контейнер с красивым фоном и скруглёнными краями
+            var outerBorder = new Border
+            {
+                Background = new SolidColorBrush(Color.FromRgb(210, 230, 250)), // нежно-голубой фон
+                CornerRadius = new CornerRadius(16),
+                Padding = new Thickness(4),
+                Margin = new Thickness(20),
+                Effect = new System.Windows.Media.Effects.DropShadowEffect
                 {
-                    Background = System.Windows.Media.Brushes.LightGray,
-                    ShowGridLines = true,
-                };
-                
-                MainScrollViewer = new ScrollViewer
-                {
-                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                    HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
-                    Content = mainGrid
-                };
+                    Color = Colors.LightBlue,
+                    Direction = 320,
+                    ShadowDepth = 4,
+                    Opacity = 0.3,
+                    BlurRadius = 8
+                }
+            };
 
+            // Основной грид
+            mainGrid = new Grid
+            {
+                Background = new SolidColorBrush(Color.FromRgb(180, 215, 245)), // насыщенный голубой
+                ShowGridLines = true,
+                Margin = new Thickness(10)
+            };
 
+            // ScrollViewer с прозрачным фоном
+            MainScrollViewer = new ScrollViewer
+            {
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+                Background = Brushes.Transparent,
+                Content = mainGrid
+            };
 
-                this.Content = MainScrollViewer;
+            // Вложим скролл в рамку и установим в окно
+            outerBorder.Child = MainScrollViewer;
+            this.Content = outerBorder;
 
-            // Очистка перед добавлением новых строк и колонок
+            // Очистка строк и колонок перед созданием
             mainGrid.RowDefinitions.Clear();
             mainGrid.ColumnDefinitions.Clear();
 
@@ -213,9 +238,10 @@ namespace ChineseTranslationThrougOCR
 
             for (int i = 0; i < collumNumber; i++)
             {
-                mainGrid.ColumnDefinitions.Add(new ColumnDefinition() );
+                mainGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
         }
+
 
         private void FillWindowWithString()
         {

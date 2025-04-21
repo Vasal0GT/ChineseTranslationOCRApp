@@ -5,5 +5,5 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChineseTranslationThrougOCR"
         mc:Ignorable="d"
-        Title="MainWindow" Height="269" Width="493">
+        Title="MainWindow" Height="150" Width="493">
 </Window>
