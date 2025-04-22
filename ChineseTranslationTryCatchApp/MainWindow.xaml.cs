@@ -107,33 +107,67 @@ namespace ChineseTranslationThrougOCR
         private void CreateLoadingWindowGuts()
         {
             GetCursorPos(ref currentPosition);
-            loadingWindow = new LoadWindow();
-            loadingWindow.Height = this.Height;
-            loadingWindow.Width = this.Width;
-            loadingWindow.Left = currentPosition.X * (96d / 120);
-            loadingWindow.Top = currentPosition.Y * (96d / 120);
-            loadingWindow.Topmost = true;
-
-            // Создаем Label
-            var loadingLabel = new System.Windows.Controls.Label
+            loadingWindow = new LoadWindow
             {
-                Content = "Загрузка, подождите...",
-                FontSize = 20,
+                //Height = this.Height,
+                //Width = this.Width, пока убрал пока загрузку делаю
+                Left = 1,//currentPosition.X * (96d / 120),
+                Top = 1,//currentPosition.Y * (96d / 120),
+                Topmost = true
+            };
+
+            // Прозрачный фон
+            var rootGrid = new Grid
+            {
+                Background = Brushes.Transparent
+            };
+
+            // Центрируем содержимое
+            var centeredPanel = new StackPanel
+            {
+                Orientation = System.Windows.Controls.Orientation.Vertical,
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                Foreground = System.Windows.Media.Brushes.Black,
-                Background = Brushes.White // Убедимся, что фон виден
+                VerticalAlignment = VerticalAlignment.Center
             };
 
-            // Используем новый Grid и задаем фон
-            var grid = new Grid
+            // Контейнер с иероглифом и обводкой
+            var border = new Border
             {
-                Background = Brushes.White // Добавляем фон
+                Background = Brushes.White,
+                BorderBrush = Brushes.Black,
+                BorderThickness = new Thickness(1),
+                CornerRadius = new CornerRadius(10),
+                Padding = new Thickness(10),
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Center
             };
-            grid.Children.Add(loadingLabel);
 
-            loadingWindow.Content = grid; // Явно устанавливаем Content
+            var glyphText = new TextBlock
+            {
+                Text = "文",
+                FontSize = 48,
+                FontWeight = FontWeights.Bold,
+                Foreground = Brushes.Black,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Center
+            };
+
+            // Анимация мигания
+            var blinkAnimation = new System.Windows.Media.Animation.DoubleAnimation
+            {
+                From = 1.0,
+                To = 0.2,
+                Duration = TimeSpan.FromSeconds(0.5),
+                AutoReverse = true,
+                RepeatBehavior = System.Windows.Media.Animation.RepeatBehavior.Forever
+            };
+            glyphText.BeginAnimation(UIElement.OpacityProperty, blinkAnimation);
+
+            border.Child = glyphText;
+            centeredPanel.Children.Add(border);
+            rootGrid.Children.Add(centeredPanel);
+
+            loadingWindow.Content = rootGrid;
         }
+
 
 
         [DllImport("user32.dll")]

@@ -5,6 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChineseTranslationTryCatchApp"
         mc:Ignorable="d"
-        Title="LoadWindow" Height="197" Width="417">
+        Title="LoadWindow" Height="100" Width="100"
+                AllowsTransparency="True" Background="Transparent"
+        ShowInTaskbar="False"
+        Topmost="True"
+        >
     <Grid/>
 </Window>
